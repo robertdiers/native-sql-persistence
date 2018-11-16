@@ -1,4 +1,4 @@
-package de.nativesqlpersistence.export;
+package com.twodigits.nativesqlpersistence.export;
 
 /**
  * constants for the export

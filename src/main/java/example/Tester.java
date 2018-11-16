@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import de.nativesqlpersistence.DBColumn;
-import de.nativesqlpersistence.ResultObject;
-import de.nativesqlpersistence.ResultRow;
+import com.twodigits.nativesqlpersistence.DBColumn;
+import com.twodigits.nativesqlpersistence.ResultObject;
+import com.twodigits.nativesqlpersistence.ResultRow;
 
 /**
  * test class

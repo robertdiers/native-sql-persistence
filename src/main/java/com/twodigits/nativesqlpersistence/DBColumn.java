@@ -1,4 +1,4 @@
-package de.nativesqlpersistence;
+package com.twodigits.nativesqlpersistence;
 
 /**
  * column name and type

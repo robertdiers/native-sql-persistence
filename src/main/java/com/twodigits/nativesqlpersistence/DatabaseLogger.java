@@ -1,4 +1,4 @@
-package de.nativesqlpersistence;
+package com.twodigits.nativesqlpersistence;
 
 /**
  * log interface for DatabaseAccessor

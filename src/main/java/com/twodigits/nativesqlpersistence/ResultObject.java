@@ -1,4 +1,4 @@
-package de.nativesqlpersistence;
+package com.twodigits.nativesqlpersistence;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.nativesqlpersistence.export.CsvUtil;
-import de.nativesqlpersistence.export.HtmlUtil;
-import de.nativesqlpersistence.export.XmlUtil;
+import com.twodigits.nativesqlpersistence.export.CsvUtil;
+import com.twodigits.nativesqlpersistence.export.HtmlUtil;
+import com.twodigits.nativesqlpersistence.export.XmlUtil;
 
 /***
  * Result Object for Simple Database Access

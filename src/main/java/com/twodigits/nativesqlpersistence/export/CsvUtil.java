@@ -1,4 +1,4 @@
-package de.nativesqlpersistence.export;
+package com.twodigits.nativesqlpersistence.export;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -6,9 +6,9 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.sql.Clob;
 
-import de.nativesqlpersistence.DBColumn;
-import de.nativesqlpersistence.ResultObject;
-import de.nativesqlpersistence.ResultRow;
+import com.twodigits.nativesqlpersistence.DBColumn;
+import com.twodigits.nativesqlpersistence.ResultObject;
+import com.twodigits.nativesqlpersistence.ResultRow;
 
 /**
  * can create CSV from Result

@@ -1,4 +1,4 @@
-package de.nativesqlpersistence;
+package com.twodigits.nativesqlpersistence;
 
 public class DB2SqlFormater {
 	

@@ -1,4 +1,4 @@
-package de.nativesqlpersistence;
+package com.twodigits.nativesqlpersistence;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,8 +27,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import de.nativesqlpersistence.connectionpool.ConnectionPoolManager;
-import de.nativesqlpersistence.connectionpool.DBConnection;
+import com.twodigits.nativesqlpersistence.connectionpool.ConnectionPoolManager;
+import com.twodigits.nativesqlpersistence.connectionpool.DBConnection;
 
 /***
  * Simple Database access with separate connection handling

@@ -1,4 +1,4 @@
-package de.nativesqlpersistence;
+package com.twodigits.nativesqlpersistence;
 
 /**
  * OracleSqlFormatter formats Oracle specific types. These include

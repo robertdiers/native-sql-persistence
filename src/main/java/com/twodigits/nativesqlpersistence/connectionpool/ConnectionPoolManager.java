@@ -1,4 +1,4 @@
-package de.nativesqlpersistence.connectionpool;
+package com.twodigits.nativesqlpersistence.connectionpool;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import de.nativesqlpersistence.DatabaseLogger;
+import com.twodigits.nativesqlpersistence.DatabaseLogger;
 
 /**
  * create an connection pool internally

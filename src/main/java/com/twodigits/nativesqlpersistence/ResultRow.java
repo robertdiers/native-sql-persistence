@@ -1,4 +1,4 @@
-package de.nativesqlpersistence;
+package com.twodigits.nativesqlpersistence;
 
 import java.io.InputStream;
 import java.math.BigDecimal;

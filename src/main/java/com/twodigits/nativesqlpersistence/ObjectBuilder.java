@@ -1,4 +1,4 @@
-package de.nativesqlpersistence;
+package com.twodigits.nativesqlpersistence;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

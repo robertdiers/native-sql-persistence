@@ -1,4 +1,4 @@
-package de.nativesqlpersistence.mainexec;
+package com.twodigits.nativesqlpersistence.mainexec;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,9 +14,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import de.nativesqlpersistence.DatabaseAccessor;
-import de.nativesqlpersistence.ResultObject;
-import de.nativesqlpersistence.ResultRow;
+import com.twodigits.nativesqlpersistence.DatabaseAccessor;
+import com.twodigits.nativesqlpersistence.ResultObject;
+import com.twodigits.nativesqlpersistence.ResultRow;
 
 /**
  * execute SQL statements as main class

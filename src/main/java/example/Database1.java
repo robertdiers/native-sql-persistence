@@ -1,6 +1,6 @@
 package example;
 
-import de.nativesqlpersistence.DatabaseAccessor;
+import com.twodigits.nativesqlpersistence.DatabaseAccessor;
 
 /**
  * singleton for database access to use connection pool feature

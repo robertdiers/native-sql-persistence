@@ -1,4 +1,4 @@
-package de.nativesqlpersistence.export;
+package com.twodigits.nativesqlpersistence.export;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -10,9 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.nativesqlpersistence.DBColumn;
-import de.nativesqlpersistence.ResultObject;
-import de.nativesqlpersistence.ResultRow;
+import com.twodigits.nativesqlpersistence.DBColumn;
+import com.twodigits.nativesqlpersistence.ResultObject;
+import com.twodigits.nativesqlpersistence.ResultRow;
 
 /**
  * can create XML from Result

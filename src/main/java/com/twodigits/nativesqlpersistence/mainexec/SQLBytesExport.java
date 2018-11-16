@@ -1,4 +1,4 @@
-package de.nativesqlpersistence.mainexec;
+package com.twodigits.nativesqlpersistence.mainexec;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import de.nativesqlpersistence.DatabaseAccessor;
+import com.twodigits.nativesqlpersistence.DatabaseAccessor;
 
 /**
  * export Bytes to disk

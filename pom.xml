@@ -30,7 +30,7 @@
 		<configuration>
 			<archive>
 				<manifest>
-					<mainClass>de.nativesqlpersistence.mainexec.SQLExecuter</mainClass>
+					<mainClass>com.twodigits.nativesqlpersistence.mainexec.SQLExecuter</mainClass>
 				</manifest>
 			</archive>
 		</configuration>

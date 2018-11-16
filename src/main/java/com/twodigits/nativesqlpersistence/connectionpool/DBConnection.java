@@ -1,4 +1,4 @@
-package de.nativesqlpersistence.connectionpool;
+package com.twodigits.nativesqlpersistence.connectionpool;
 
 import java.sql.Connection;
 import java.sql.SQLException;
