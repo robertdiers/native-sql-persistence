@@ -1,4 +1,4 @@
-#Native SQL Persistence
+# Native SQL Persistence
 
 Framework is designed to provide simple database access using native SQL queries. 
 It will care about connection handling and object closing statements to avoid connection leaks.
