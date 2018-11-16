@@ -20,3 +20,5 @@ You should use one DatabaseAccessor instance per database, so please use Singlet
 * code including example
 * main class execution functionality (de.nativesqlpersistence.mainexec.SQLExecuter)
 * main class Bytes export functionality (de.nativesqlpersistence.mainexec.SQLBytesExport)
+
+[Download](target/native-sql-persistence.jar)
