@@ -12,11 +12,11 @@ Can be used as XA and None-XA datasource, statement parameters are available.
 ##### ATTENTION:
 You should use one DatabaseAccessor instance per database, so please use Singleton pattern in multi-thread environments like web applications. DatabaseAccessor is implementing DataSource interface, so you might use it directly in your existing code as an extension.
 
-##### Features
+#####Features
 * multiple native Java connection pools
 * can be used with server connection pools
 * CSV, HTML, XML, XML-Spreadsheet export functionality
 * prepared and unprepared statements
 * code including example
-* main class execution functionality
-* main class Bytes export functionality
+* main class execution functionality (de.nativesqlpersistence.mainexec.SQLExecuter)
+* main class Bytes export functionality (de.nativesqlpersistence.mainexec.SQLBytesExport)
