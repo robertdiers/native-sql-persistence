@@ -342,6 +342,7 @@ public class DatabaseAccessor implements DataSource {
 	
 	/***
 	 * execute an SELECT statement
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @param sql
 	 * @return ResultObject with columns and ResultRows
 	 * @throws SQLException
@@ -353,6 +354,7 @@ public class DatabaseAccessor implements DataSource {
 	
 	/***
 	 * execute an SELECT statement
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @param sql
 	 * @return ResultObject with columns and ResultRows
 	 * @throws SQLException
@@ -441,6 +443,7 @@ public class DatabaseAccessor implements DataSource {
 				else values.append("null,");
 				i++;
 			}
+			logInfo(values.toString());
 			//execute
 			result = stmt.executeQuery();
 			res = ObjectBuilder.buildResult(result);
@@ -457,6 +460,7 @@ public class DatabaseAccessor implements DataSource {
 	
 	/***
 	 * execute an SELECT statement with max results
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @param sql
 	 * @return ResultObject with columns and ResultRows
 	 * @throws SQLException
@@ -468,6 +472,7 @@ public class DatabaseAccessor implements DataSource {
 	
 	/***
 	 * execute an SELECT statement with max results
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @param sql
 	 * @return ResultObject with columns and ResultRows
 	 * @throws SQLException
@@ -515,6 +520,7 @@ public class DatabaseAccessor implements DataSource {
 	
 	/***
 	 * Execute an INSERT, UPDATE, DELETE, ... statement
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @param sql
 	 * @throws SQLException
 	 */
@@ -525,6 +531,7 @@ public class DatabaseAccessor implements DataSource {
 	
 	/***
 	 * Execute an INSERT, UPDATE, DELETE, ... statement
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @param sql
 	 * @throws SQLException
 	 */
@@ -561,6 +568,7 @@ public class DatabaseAccessor implements DataSource {
 	/***
 	 * Execute an INSERT, UPDATE, DELETE, ... statement WITHOUT commit
 	 * PLEASE EXECUTE commitForStatementsWithoutCommit AFTER YOUR WORK IS DONE!
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @param sql
 	 * @throws SQLException
 	 */
@@ -572,6 +580,7 @@ public class DatabaseAccessor implements DataSource {
 	/***
 	 * Execute an INSERT, UPDATE, DELETE, ... statement WITHOUT commit
 	 * PLEASE EXECUTE commitForStatementsWithoutCommit AFTER YOUR WORK IS DONE!
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @param sql
 	 * @throws SQLException
 	 */
@@ -626,6 +635,7 @@ public class DatabaseAccessor implements DataSource {
 
 	/***
 	 * Execute an INSERT, UPDATE, DELETE, ... statement list with autocommit = false or normal EM
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @param sql
 	 * @throws SQLException
 	 */
@@ -636,6 +646,7 @@ public class DatabaseAccessor implements DataSource {
 
 	/***
 	 * Execute an INSERT, UPDATE, DELETE, ... statement list with autocommit = false or normal EM
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @param sql
 	 * @throws SQLException
 	 */
@@ -691,7 +702,7 @@ public class DatabaseAccessor implements DataSource {
 	/***
 	 * Execute an INSERT statement with strings used directly in SQL
 	 * please use 'test' for String values (with SingleQuotes)
-	 * SQL injection vulnerable
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @throws SQLException
 	 */
 	public int executeInsert(String table, HashMap<String,String> fields_values) throws SQLException
@@ -724,7 +735,7 @@ public class DatabaseAccessor implements DataSource {
 	/***
 	 * Execute an UPDATE statement with strings used directly in SQL
 	 * please use 'test' for String values (with SingleQuotes)
-	 * SQL injection vulnerable
+	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
 	 * @throws SQLException
 	 */
 	public int executeUpdate(String table, String where, HashMap<String,String> fields_values) throws SQLException
@@ -776,6 +787,7 @@ public class DatabaseAccessor implements DataSource {
 	 * supported: 
 	 * BigDecimal, Blob, Boolean, Byte, byte[], Clob, Date, Double,
 	 * Float, Integer, Long, Object, Ref, Short, Time, Timestamp, URL
+	 * SQL-Injection safe
 	 * @throws Exception 
 	 */
 	public void executePreparedSingle(String sql, Collection<Object> fields_values) throws SQLException
@@ -790,6 +802,7 @@ public class DatabaseAccessor implements DataSource {
 	 * supported: 
 	 * BigDecimal, Blob, Boolean, Byte, byte[], Clob, Date, Double,
 	 * Float, Integer, Long, Object, Ref, Short, Time, Timestamp, URL
+	 * SQL-Injection safe
 	 * @throws Exception 
 	 */
 	public void executePrepared(String sql, Collection<Collection<Object>> fields_values_col) throws SQLException
@@ -802,6 +815,7 @@ public class DatabaseAccessor implements DataSource {
 	 * supported: 
 	 * BigDecimal, Blob, Boolean, Byte, byte[], Clob, Date, Double,
 	 * Float, Integer, Long, Object, Ref, Short, Time, Timestamp, URL
+	 * SQL-Injection safe
 	 * @throws Exception 
 	 */
 	public void executePrepared(String sql, Collection<Collection<Object>> fields_values_col, Integer statementType, Integer concurrencyType, Integer holdabilityType) throws SQLException
@@ -836,28 +850,7 @@ public class DatabaseAccessor implements DataSource {
 				StringBuffer values = new StringBuffer();
 				for(Object value : fields_values)
 				{					
-					//check type
-					if (value == null)							{ stmt.setObject(i, null); }
-					else if (value instanceof BigDecimal) 		{ stmt.setBigDecimal(i, (BigDecimal)value); }
-					else if (value instanceof Blob) 			{ stmt.setBlob(i, (Blob)value); }
-					else if (value instanceof Boolean) 			{ stmt.setBoolean(i, (Boolean)value); }
-					else if (value instanceof Byte) 			{ stmt.setByte(i, (Byte)value); }
-					else if (value instanceof byte[]) 			{ stmt.setBytes(i, (byte[])value); }
-					else if (value instanceof Clob) 			{ stmt.setClob(i, (Clob)value); }
-					else if (value instanceof Time) 			{ stmt.setTime(i, (Time)value); }
-					else if (value instanceof Timestamp) 		{ stmt.setTimestamp(i, (Timestamp)value); }
-					else if (value instanceof java.sql.Date) 	{ stmt.setDate(i, (java.sql.Date)value); }
-					else if (value instanceof java.util.Date) 	{ stmt.setDate(i, new java.sql.Date(((java.util.Date)value).getTime())); }
-					else if (value instanceof Double) 			{ stmt.setDouble(i, (Double)value); }
-					else if (value instanceof Float) 			{ stmt.setFloat(i, (Float)value); }
-					else if (value instanceof Integer) 			{ stmt.setInt(i, (Integer)value); }
-					else if (value instanceof Long) 			{ stmt.setLong(i, (Long)value); }
-					else if (value instanceof Ref) 				{ stmt.setRef(i, (Ref)value); }
-					else if (value instanceof Short) 			{ stmt.setShort(i, (Short)value); }
-					//else if (value instanceof String) 			{ stmt.setString(i, maskSingleQuote((String)value)); }					
-					else if (value instanceof String) 			{ stmt.setString(i, (String)value); }		
-					else if (value instanceof URL) 				{ stmt.setURL(i, (URL)value); }
-					else 										{ stmt.setObject(i, value); }		
+					this.addParameter(stmt, i, value);
 					if (value != null) values.append(value.toString()+",");
 					else values.append("null,");
 					i++;

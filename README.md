@@ -10,7 +10,8 @@ CSV, HTML, XML, XML-Spreadsheets (Excel)
 Can be used as XA and None-XA datasource, statement parameters are available.
 
 ##### ATTENTION:
-You should use one DatabaseAccessor instance per database, so please use Singleton pattern in multi-thread environments like web applications. DatabaseAccessor is implementing DataSource interface, so you might use it directly in your existing code as an extension.
+* You should use one DatabaseAccessor instance per database, so please use Singleton pattern in multi-thread environments like web applications. DatabaseAccessor is implementing DataSource interface, so you might use it directly in your existing code as an extension.
+* Please use Prepared method calls for dynamic SQL, as they are less vulnerable to SQL injection!
 
 ##### Features
 * multiple native Java connection pools
