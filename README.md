@@ -17,7 +17,7 @@ Can be used as XA and None-XA datasource, statement parameters are available.
 * multiple native Java connection pools
 * can be used with server connection pools
 * CSV, HTML, XML, XML-Spreadsheet export functionality
-* prepared and unprepared statements
+* prepared and unprepared statements (please be careful unprepared ones are SQL injection vulnerable)
 * code including example
 * main class execution functionality (de.nativesqlpersistence.mainexec.SQLExecuter)
 * main class Bytes export functionality (de.nativesqlpersistence.mainexec.SQLBytesExport)

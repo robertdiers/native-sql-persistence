@@ -68,6 +68,7 @@ public class DatabaseAccessor implements DataSource {
 	
 	/***
 	 * Constructor with JNDI name
+	 * ATTENTION: please use prepared methods to avoid SQL injection vulnerability
 	 * @throws NamingException
 	 */
 	public DatabaseAccessor(String jndiname) throws NamingException
@@ -77,6 +78,7 @@ public class DatabaseAccessor implements DataSource {
 	
 	/***
 	 * Constructor with JNDI name
+	 * ATTENTION: please use prepared methods to avoid SQL injection vulnerability
 	 * @throws NamingException
 	 */
 	public DatabaseAccessor(String jndiname, boolean isXADataSource) throws NamingException
@@ -103,6 +105,7 @@ public class DatabaseAccessor implements DataSource {
 	
 	/***
 	 * Constructor with driver name
+	 * ATTENTION: please use prepared methods to avoid SQL injection vulnerability
 	 * @throws NamingException
 	 */
 	public DatabaseAccessor(String url, String userid, String password, String driver)
@@ -112,6 +115,7 @@ public class DatabaseAccessor implements DataSource {
 	
 	/***
 	 * Constructor with driver name
+	 * ATTENTION: please use prepared methods to avoid SQL injection vulnerability
 	 * @throws NamingException
 	 */
 	public DatabaseAccessor(String url, String userid, String password, String driver, boolean isXADataSource)
