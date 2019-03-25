@@ -19,8 +19,6 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
@@ -528,9 +526,9 @@ public class DatabaseAccessor implements DataSource {
 	 * @param sql
 	 * @throws SQLException
 	 */
-	public int executeInsUpdDel(String sql) throws SQLException
+	public int execute(String sql) throws SQLException
 	{
-		return executeInsUpdDel(sql, null, null, null);
+		return execute(sql, null, null, null);
 	}
 	
 	/***
@@ -539,7 +537,7 @@ public class DatabaseAccessor implements DataSource {
 	 * @param sql
 	 * @throws SQLException
 	 */
-	public int executeInsUpdDel(String sql, Integer statementType, Integer concurrencyType, Integer holdabilityType) throws SQLException
+	public int execute(String sql, Integer statementType, Integer concurrencyType, Integer holdabilityType) throws SQLException
 	{		
 		//log and validation
 		logInfo(sql);
@@ -576,9 +574,9 @@ public class DatabaseAccessor implements DataSource {
 	 * @param sql
 	 * @throws SQLException
 	 */
-	public int executeInsUpdDelWithoutCommit(String sql) throws SQLException
+	public int executeWithoutCommit(String sql) throws SQLException
 	{
-		return executeInsUpdDelWithoutCommit(sql, null, null, null);
+		return executeWithoutCommit(sql, null, null, null);
 	}
 	
 	/***
@@ -588,7 +586,7 @@ public class DatabaseAccessor implements DataSource {
 	 * @param sql
 	 * @throws SQLException
 	 */
-	public int executeInsUpdDelWithoutCommit(String sql, Integer statementType, Integer concurrencyType, Integer holdabilityType) throws SQLException
+	public int executeWithoutCommit(String sql, Integer statementType, Integer concurrencyType, Integer holdabilityType) throws SQLException
 	{		
 		//log and validation
 		logInfo(sql);
@@ -636,155 +634,6 @@ public class DatabaseAccessor implements DataSource {
 		}
 		connectionForStatementsWithoutCommit = null;
 	}
-
-	/***
-	 * Execute an INSERT, UPDATE, DELETE, ... statement list with autocommit = false or normal EM
-	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
-	 * @param sql
-	 * @throws SQLException
-	 */
-	public void executeInsUpdDel(List<String> sqls) throws SQLException
-	{	
-		executeInsUpdDel(sqls, null, null, null);
-	}
-
-	/***
-	 * Execute an INSERT, UPDATE, DELETE, ... statement list with autocommit = false or normal EM
-	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
-	 * @param sql
-	 * @throws SQLException
-	 */
-	public void executeInsUpdDel(List<String> sqls, Integer statementType, Integer concurrencyType, Integer holdabilityType) throws SQLException
-	{		
-		//do it
-		Statement stmt = null;	
-		
-		Connection connection = null;
-		DBConnection dbconnection = null;
-		try{			
-			if (this.useServerPool) {
-				connection = getConnection();
-				connection.setAutoCommit(false);
-				stmt = createStatement(connection, statementType, concurrencyType, holdabilityType);
-			} else {
-				dbconnection = getInternalPoolConnection();
-				dbconnection.setAutoCommit(false);
-				stmt = createStatement(dbconnection.getCon(), statementType, concurrencyType, holdabilityType);
-			} 	
-			   
-			for (String sql : sqls) {
-				//log and validation
-				logInfo(sql);
-				blockComments(sql);
-				stmt.executeUpdate(sql);
-			}
-			//auto-commit off
-			if (!this.isXA) {
-				if (this.useServerPool) connection.commit();
-				else dbconnection.getCon().commit();		
-			}
-		} catch (SQLException e) {
-			//auto-commit off
-			if (!this.isXA) {
-				if (this.useServerPool) connection.rollback();
-				else dbconnection.getCon().rollback();
-			}
-			logError(e.getMessage());
-			e.printStackTrace();
-			throw e;
-		} finally {
-			this.cleanup(null, stmt, connection, null);
-			try {
-				if (dbconnection != null)
-					dbconnection.getCon().close();				
-			} catch (Exception e) {		
-				logWarn(e.getMessage());
-			}
-		}
-	}	
-	
-	/***
-	 * Execute an INSERT statement with strings used directly in SQL
-	 * please use 'test' for String values (with SingleQuotes)
-	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
-	 * @throws SQLException
-	 */
-	public int executeInsert(String table, HashMap<String,String> fields_values) throws SQLException
-	{	
-		//create Strings
-		StringBuffer fieldsbuf = new StringBuffer();
-		StringBuffer valuesbuf = new StringBuffer();
-		
-		//build fields and values		
-        for (String key : fields_values.keySet()) 
-        {	 
-        	String columnData = fields_values.get(key);
-        	fieldsbuf.append(key+",");
-        	valuesbuf.append(checkDataValue(columnData)+",");
-        }
-				
-		//remove last comma
-		String fields = fieldsbuf.toString();
-		String values = valuesbuf.toString();		
-		fields = fields.substring(0, fields.length()-1);
-		values = values.substring(0, values.length()-1);		
-		
-		//create insert
-		String sql = "insert into "+table+" ("+fields+") values ("+values+")";
-		
-		//do it
-		return executeInsUpdDel(sql);
-	}	
-	
-	/***
-	 * Execute an UPDATE statement with strings used directly in SQL
-	 * please use 'test' for String values (with SingleQuotes)
-	 * ATTENTION: SQL-Injection vulnerable when using dynamic SQL
-	 * @throws SQLException
-	 */
-	public int executeUpdate(String table, String where, HashMap<String,String> fields_values) throws SQLException
-	{	
-		//create Strings
-		StringBuffer setbuf = new StringBuffer();		
-		
-		//build fields and values
-		for (String key : fields_values.keySet()) 
-        {	        	
-        	String columnData = fields_values.get(key);
-        	setbuf.append(key+"="+checkDataValue(columnData)+", ");
-        }
-				
-		//remove last comma
-		String set = setbuf.toString();	
-		set = set.substring(0, set.length()-2);
-		
-		//create update
-		if (where == null || where.length() == 0) where = "1=1";
-		String sql = "update "+table+" set "+set+" where "+where;
-		
-		//do it
-		return executeInsUpdDel(sql);
-	}	
-	
-	/***
-	 * check the data value
-	 */
-	private String checkDataValue(String columnData)
-	{
-		//null
-    	if (columnData == null) columnData = "null";
-    	
-    	//mask ' in Strings
-    	if (columnData.startsWith(SINGLE_QUOTE) && columnData.endsWith(SINGLE_QUOTE)) {
-    		//String
-    		if (columnData.length() > 2) {
-	    		columnData = columnData.substring(1,columnData.length()-1);
-	    		columnData = SINGLE_QUOTE+maskSingleQuote(columnData)+SINGLE_QUOTE;
-    		}
-    	}
-    	
-    	return columnData;
-	}	
 	
 	/***
 	 * Execute an statement as Prepared Statement
@@ -794,11 +643,11 @@ public class DatabaseAccessor implements DataSource {
 	 * SQL-Injection safe
 	 * @throws Exception 
 	 */
-	public void executePreparedSingle(String sql, Collection<Object> fields_values) throws SQLException
+	public void executePrepared(String sql, Collection<Object> fields_values) throws SQLException
 	{	
 		ArrayList<Collection<Object>> col = new ArrayList<Collection<Object>>();
 		col.add(fields_values);
-		executePrepared(sql, col);
+		executePreparedList(sql, col);
 	}
 	
 	/***
@@ -809,9 +658,9 @@ public class DatabaseAccessor implements DataSource {
 	 * SQL-Injection safe
 	 * @throws Exception 
 	 */
-	public void executePrepared(String sql, Collection<Collection<Object>> fields_values_col) throws SQLException
+	public void executePreparedList(String sql, Collection<Collection<Object>> fields_values_col) throws SQLException
 	{
-		executePrepared(sql, fields_values_col, null, null, null);
+		executePreparedList(sql, fields_values_col, null, null, null);
 	}
 	
 	/***
@@ -822,7 +671,7 @@ public class DatabaseAccessor implements DataSource {
 	 * SQL-Injection safe
 	 * @throws Exception 
 	 */
-	public void executePrepared(String sql, Collection<Collection<Object>> fields_values_col, Integer statementType, Integer concurrencyType, Integer holdabilityType) throws SQLException
+	public void executePreparedList(String sql, Collection<Collection<Object>> fields_values_col, Integer statementType, Integer concurrencyType, Integer holdabilityType) throws SQLException
 	{		
 		//log and validation
 		logInfo(sql);
@@ -888,111 +737,7 @@ public class DatabaseAccessor implements DataSource {
 				logWarn(e.getMessage());
 			}
 		}		
-	}	
-	
-	/***
-	 * Execute an statement as Prepared Statement
-	 * supported: 
-	 * BigDecimal, Blob, Boolean, Byte, byte[], Clob, Date, Double,
-	 * Float, Integer, Long, Object, Ref, Short, Time, Timestamp, URL
-	 * SQL injection safe
-	 * @throws Exception 
-	 */
-	public void executeInsUpdDelPrepared(String sql, Collection<Object> fields_values) throws SQLException
-	{	
-		ArrayList<Collection<Object>> col = new ArrayList<Collection<Object>>();
-		col.add(fields_values);
-		executeInsUpdDelPreparedList(sql, col);
-	}
-	
-	/***
-	 * Execute multiple statements as Prepared Statement
-	 * supported: 
-	 * BigDecimal, Blob, Boolean, Byte, byte[], Clob, Date, Double,
-	 * Float, Integer, Long, Object, Ref, Short, String, Time, Timestamp, URL
-	 * SQL injection safe
-	 * @throws Exception 
-	 */
-	public void executeInsUpdDelPreparedList(String sql, Collection<Collection<Object>> fields_values_col) throws SQLException
-	{
-		executeInsUpdDelPreparedList(sql, fields_values_col, null, null, null);
-	}
-	
-	/***
-	 * Execute multiple statements as Prepared Statement
-	 * supported: 
-	 * BigDecimal, Blob, Boolean, Byte, byte[], Clob, Date, Double,
-	 * Float, Integer, Long, Object, Ref, Short, String, Time, Timestamp, URL
-	 * SQL injection safe
-	 * @throws Exception 
-	 */
-	public void executeInsUpdDelPreparedList(String sql, Collection<Collection<Object>> fields_values_col, Integer statementType, Integer concurrencyType, Integer holdabilityType) throws SQLException
-	{		
-		//log and validation
-		logInfo(sql);
-		blockComments(sql);
-				
-		//create PreparedStatement
-		PreparedStatement stmt = null;
-		
-		Connection connection = null;
-		DBConnection dbconnection = null;
-		try{
-			if (this.useServerPool) {
-				connection = getConnection();
-				connection.setAutoCommit(false);				
-				stmt = prepareStatement(connection, sql, statementType, concurrencyType, holdabilityType);				
-			} else {
-				dbconnection = getInternalPoolConnection();				
-				dbconnection.setAutoCommit(false);
-				stmt = prepareStatement(dbconnection.getCon(), sql, statementType, concurrencyType, holdabilityType);				
-			}	
-			
-			//iterate over data
-			long counter = 1;
-			for(Collection<Object> fields_values : fields_values_col)
-			{
-				//iterator over columns
-				stmt.clearParameters();
-				int i = 1;
-				StringBuffer values = new StringBuffer();
-				for(Object value : fields_values)
-				{		
-					stmt = this.addParameter(stmt, i, value);							
-					if (value != null) values.append(value.toString()+",");
-					else values.append("null,");
-					i++;
-				}
-				logInfo(counter+": "+values.toString());
-				stmt.executeUpdate();
-				counter++;
-			}	
-			
-			//auto-commit off
-			if (!this.isXA) {
-				if (this.useServerPool) connection.commit();
-				else dbconnection.getCon().commit();		
-			}			
-			
-		} catch (SQLException e) {
-			//auto-commit off
-			if (!this.isXA) {
-				if (this.useServerPool) connection.rollback();
-				else dbconnection.getCon().rollback();		
-			}
-			logError(e.getMessage());
-			e.printStackTrace();
-			throw e;
-		} finally {			
-			this.cleanup(null, stmt, connection, null);
-			try {
-				if (dbconnection != null)
-					dbconnection.getCon().close();				
-			} catch (Exception e) {		
-				logWarn(e.getMessage());
-			}
-		}		
-	}
+	}		
 	
 	/**
 	 * adding parameter to prepared statement

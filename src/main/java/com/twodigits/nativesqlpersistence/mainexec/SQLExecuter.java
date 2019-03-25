@@ -117,7 +117,7 @@ public class SQLExecuter {
 						out.close();
 					} else {
 						//execute none query
-						db.executeInsUpdDel(sql);
+						db.execute(sql);
 					}					
 				}				
 			} else {
@@ -156,7 +156,7 @@ public class SQLExecuter {
 		        	counter2++;		        	
 		        	try {		
 		        		//execute
-		    			db.executeInsUpdDel(tsql);    			
+		    			db.execute(tsql);    			
 		    			
 		    			out_done.write(tsql);
 		    			out_done.newLine();				        		
