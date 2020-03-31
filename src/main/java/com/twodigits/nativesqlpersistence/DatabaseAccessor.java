@@ -729,13 +729,13 @@ public class DatabaseAccessor implements DataSource {
 			e.printStackTrace();
 			throw e;
 		} finally {			
-			this.cleanup(null, stmt, connection, null);
 			try {
 				if (dbconnection != null)
-					dbconnection.getCon().close();				
-			} catch (Exception e) {		
+					dbconnection.setAutoCommit(true);
+			} catch (Exception e) {
 				logWarn(e.getMessage());
 			}
+			this.cleanup(null, stmt, connection, null);
 		}		
 	}		
 	
