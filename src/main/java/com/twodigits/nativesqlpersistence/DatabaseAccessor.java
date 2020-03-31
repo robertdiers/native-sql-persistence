@@ -735,7 +735,7 @@ public class DatabaseAccessor implements DataSource {
 			} catch (Exception e) {
 				logWarn(e.getMessage());
 			}
-			this.cleanup(null, stmt, connection, null);
+			this.cleanup(null, stmt, connection, dbconnection);
 		}		
 	}		
 	
