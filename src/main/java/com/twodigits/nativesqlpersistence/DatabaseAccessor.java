@@ -801,12 +801,12 @@ public class DatabaseAccessor implements DataSource {
 		} catch (Exception e) {		
 			logWarn(e.getMessage());
 		}
-		try {
+		/*try {
 			if (connection != null)
 				connection.close();						
 		} catch (Exception e) {		
 			logWarn(e.getMessage());
-		}
+		}*/
 		try {
 			if (dbconnection != null)
 				this.manager.returnConnectionToPool(dbconnection);
