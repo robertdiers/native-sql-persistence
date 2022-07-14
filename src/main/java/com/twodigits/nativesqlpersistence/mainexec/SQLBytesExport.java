@@ -28,7 +28,7 @@ public class SQLBytesExport {
 			if (args.length != 5)
 			{				
 				System.out.println("usage:");
-				System.out.println("java -cp nativesqlpersistence_1.1.jar:<database-driver.jar> de.nativesqlpersistence.mainexec.SQLBytesExport <url> <DriverClass> <User> <Password> \"<SQL>\"");
+				System.out.println("java -cp nativesqlpersistence_1.3.jar:<database-driver.jar> com.twodigits.nativesqlpersistence.mainexec.SQLBytesExport <url> <DriverClass> <User> <Password> \"<SQL>\"");
 				System.out.println("please use column alias 'filename' and 'filedata'");
 				System.exit(1);
 			}
