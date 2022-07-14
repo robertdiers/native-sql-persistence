@@ -36,9 +36,9 @@ public class SQLExecuter {
 			if (args.length != 5 && args.length != 6)
 			{				
 				System.out.println("usage:");
-				System.out.println("java -cp nativesqlpersistence_1.3.jar:<database-driver.jar> de.nativesqlpersistence.mainexec.SQLExecuter <url> <DriverClass> <User> <Password> \"<SQL>\"");
+				System.out.println("java -cp nativesqlpersistence_1.3.jar:<database-driver.jar> com.twodigits.nativesqlpersistence.mainexec.SQLExecuter <url> <DriverClass> <User> <Password> \"<SQL>\"");
 				System.out.println("or");
-				System.out.println("java -cp nativesqlpersistence_1.3.jar:<database-driver.jar> de.nativesqlpersistence.mainexec.SQLExecuter <url> <DriverClass> <User> <Password> <Encoding> <*.sql>");
+				System.out.println("java -cp nativesqlpersistence_1.3.jar:<database-driver.jar> com.twodigits.nativesqlpersistence.mainexec.SQLExecuter <url> <DriverClass> <User> <Password> <Encoding> <*.sql>");
 				System.exit(1);
 			}
 			
