@@ -19,8 +19,8 @@ Can be used as XA and None-XA datasource, statement parameters are available.
 * CSV, HTML, XML, XML-Spreadsheet export functionality
 * prepared and unprepared statements (please be careful unprepared ones are SQL injection vulnerable)
 * code including example
-* main class execution functionality (de.nativesqlpersistence.mainexec.SQLExecuter)
-* main class Bytes export functionality (de.nativesqlpersistence.mainexec.SQLBytesExport)
+* main class execution functionality (SQLExecuter)
+* main class Bytes export functionality (SQLBytesExport)
 
 [Download](target/native-sql-persistence.jar)
 
